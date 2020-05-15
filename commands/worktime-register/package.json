@@ -1,0 +1,59 @@
+{
+  "name": "worktime-register",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "release": "standard-version -t release-",
+    "cz": "git-cz",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint --fix .",
+    "cover": "nyc --reporter=json-summary --reporter=html npm run test:unit",
+    "test:unit": "mocha --require test/setup --reporter dot --slow 5000 test/unit/**/*.spec.js"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "chai": "^4.2.0",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.5",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
+    "sinon": "^9.0.2",
+    "standard-version": "^8.0.0"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "@wakeupmh",
+  "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run cover",
+      "pre-push": "npm run lint --fix",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "_moduleAliases": {
+    "@worktime": "src"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bluebird": "^3.7.2",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "global": "^4.4.0",
+    "ioredis": "^4.16.3",
+    "module-alias": "^2.2.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}
