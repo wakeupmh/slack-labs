@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon --exec babel-node src/index.js",
     "release": "standard-version -t release-",
     "cz": "git-cz",
     "lint": "npx eslint .",
@@ -22,7 +23,9 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.5",
+    "koa-router": "^8.0.8",
     "mocha": "^7.1.2",
+    "nodemon": "^2.0.4",
     "nyc": "^15.0.1",
     "sinon": "^9.0.2",
     "standard-version": "^8.0.0"
@@ -43,12 +46,21 @@
     "@worktime": "src"
   },
   "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "@slack/web-api": "^5.8.1",
     "axios": "^0.19.2",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "bluebird": "^3.7.2",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "global": "^4.4.0",
     "ioredis": "^4.16.3",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compress": "^4.0.1",
+    "koa-helmet": "^5.2.0",
     "module-alias": "^2.2.2"
   },
   "config": {
