@@ -62,6 +62,7 @@
     "koa-compress": "^4.0.1",
     "koa-helmet": "^5.2.0",
     "module-alias": "^2.2.2"
+    
   },
   "config": {
     "commitizen": {
