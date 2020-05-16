@@ -1,5 +1,7 @@
+import dotenv from 'dotenv'
 import Router from 'koa-router'
-const { WebClient } = require('@slack/web-api')
+import { WebClient } from '@slack/web-api'
+dotenv.config()
 
 const token = process.env.SLACK_TOKEN
 const web = new WebClient(token, { retries: 0 })
@@ -13,7 +15,9 @@ const router = new Router()
 router.post('/slack/register', ({ request: req, response: res }) => {
   const { trigger_id: triggerId } = req.body
 
-  res.status(200).send('');
+  res.status = 200
+  res.body = req.body;
+
   (async () => {
     // Open a modal.
     await web.views.open({
@@ -22,19 +26,19 @@ router.post('/slack/register', ({ request: req, response: res }) => {
         type: 'modal',
         title: {
           type: 'plain_text',
-          text: 'Contact Front Desk'
+          text: 'Registro de ponto'
         },
         submit: {
           type: 'plain_text',
-          text: 'Submit'
+          text: 'Registrar'
         },
-        callback_id: 'frontdesk',
+        callback_id: 'worktime-register',
         blocks: [
           {
             type: 'section',
             text: {
               type: 'plain_text',
-              text: ':wave: We will get back to you as soon as possible',
+              text: ':alarm_clock: Utilize os campos abaixo para bater seu ponto',
               emoji: true
             }
           },
@@ -44,32 +48,72 @@ router.post('/slack/register', ({ request: req, response: res }) => {
 
           {
             type: 'input',
-            block_id: 'title',
+            block_id: 'login',
             label: {
               type: 'plain_text',
-              text: 'Title',
+              text: 'Login',
               emoji: true
             },
             element: {
               type: 'plain_text_input',
               multiline: false,
-              action_id: 'title'
+              action_id: 'login',
+              placeholder: {
+                type: 'plain_text',
+                text: 'xpto@dasa.com.br'
+              }
             }
           },
           {
             type: 'input',
-            block_id: 'description',
+            block_id: 'senha',
             label: {
               type: 'plain_text',
-              text: 'Description',
+              text: 'Senha',
               emoji: true
             },
             element: {
               type: 'plain_text_input',
-              multiline: true,
-              action_id: 'description'
+              action_id: 'password',
+              placeholder: {
+                type: 'plain_text',
+                text: '************'
+              }
+            }
+          },
+          {
+            type: 'input',
+            block_id: 'checkin',
+            label: {
+              type: 'plain_text',
+              text: 'Horário de entrada',
+              emoji: true
             },
-            optional: true
+            element: {
+              type: 'plain_text_input',
+              action_id: 'checkin',
+              placeholder: {
+                type: 'plain_text',
+                text: '09:00'
+              }
+            }
+          },
+          {
+            type: 'input',
+            block_id: 'checkout',
+            label: {
+              type: 'plain_text',
+              text: 'Horário de saída',
+              emoji: true
+            },
+            element: {
+              type: 'plain_text_input',
+              action_id: 'checkin',
+              placeholder: {
+                type: 'plain_text',
+                text: '19:00'
+              }
+            }
           }
         ]
       }
@@ -78,7 +122,8 @@ router.post('/slack/register', ({ request: req, response: res }) => {
 })
 
 router.post('/slack/interactions', ({ request: req, response: res }) => {
-  res.status(200).send()
+  res.status = 200
+  res.body = ''
 
   const payload = JSON.parse(req.body.payload)
 
