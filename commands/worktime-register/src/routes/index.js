@@ -12,12 +12,12 @@ const router = new Router()
 //   ctx.body = ctx.request.body
 // })
 
-router.post('/slack/register', ({ request: req, response: res }) => {
-  const { trigger_id: triggerId } = req.body
+router.post('/slack/register', (ctx) => {
+  const { trigger_id: triggerId } = ctx.request.body
 
-  res.status = 200
-  res.body = req.body;
-
+  ctx.response.status = 200
+  ctx.response.body = ctx.request.body
+  ctx.log.info('Slack register');
   (async () => {
     // Open a modal.
     await web.views.open({
@@ -121,24 +121,19 @@ router.post('/slack/register', ({ request: req, response: res }) => {
   })()
 })
 
-router.post('/slack/interactions', ({ request: req, response: res }) => {
-  res.status = 200
-  res.body = ''
+router.post('/slack/interactions', (ctx) => {
+  ctx.response.status = 200
+  ctx.response.body = ''
+  const payload = JSON.parse(ctx.request.body.payload)
 
-  const payload = JSON.parse(req.body.payload)
-
-  // view the payload on console
-  console.log(payload)
+  ctx.log.info(`Interactions - payload: ${payload}`)
 
   if (
     payload.type === 'view_submission' &&
     payload.view.callback_id === 'frontdesk'
   ) {
     const { values } = payload.view.state
-    const title = values.title.title.value
-    const description = values.description.description.value
-
-    console.log(`title ----->${title}`, `description---->${description}`)
+    ctx.log.info(`Interactions - values retrieved: ${values}`)
   }
 })
 export default router
